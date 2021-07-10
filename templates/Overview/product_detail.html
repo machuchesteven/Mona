@@ -1,0 +1,9 @@
+{% extends 'Overview/base.html' %}{% load static %}{% block main %}
+    <h1>Product Details</h1>
+    <hr />
+    <h2>Product Name: {{product.name}}</h2>
+    <img src="{{product.picture.url}}" />
+    <h3>Product Description</h3>
+    <p>{{ product.description }}</p>
+
+{% endblock %}

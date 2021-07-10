@@ -1,0 +1,13 @@
+{% extends 'Overview/base.html' %}{% load static %}{% block main %}
+<div class="jumbotron">
+    <h1 class="display-3">Create The Product to appear on our selling page</h1>
+    <p class="lead">Jumbo helper text</p><hr>
+</div>
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p }}
+        <input type="submit" class="btn btn-primary" name="submit" value="submit"/>
+    </form>
+</div>
+{% endblock main %}

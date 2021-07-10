@@ -1,0 +1,121 @@
+{% extends "Overview/base.html" %} {% load static %} {% block main %}
+
+<div class="container-fluid" id="carousel-body">
+    <div class="heading-cover">
+        <div id="offer">
+        {% comment %} This goes for the web Daily Mona Offer {% endcomment %}
+        <div id="offer-image" class="container-fluid overlay">
+            <img src="{% static 'images/cover1.jpg' %}" id="offer-img" class="img-fluid" />    
+            <span class="text-overlay text-white">Overlay Text for the Image After creation</span>
+        </div>
+        <div id="offer-content">
+            <h1 class="text-center" id="offer-title" >Get  The Latest Items, The Cheapest prices Ever</h1>
+            <span id="offer-discount" class="text-right"><h2>Up to 50% OFF</h2></span>
+            <p id="offer-descritption" class="text-center text-align-middle">Get the latest Products at a low price. Our stores Offers many Other Offers like buy one get one, first one 75% off daily discount, and for every new item in the stock. Make sure you folllow the store you like to get notified about our products and new offers. We offer delivery for every package You buy from us.</p>
+        </div>
+
+        </div>
+    </div>
+</div><br>
+<hr>
+<div id="changed">
+    <button class="btn btn-outline-info" id="get_author">Get Author name</button>
+    <h2 id="author"></h2>
+</div>
+<div class="jumbotron jumbotron-fluid container">
+    <div class="container">
+    <button id="show-comments" class="btn btn-outline-primary">Show Comments Button</button><button id="infobutton" class="btn btn-outline-info">Get information</button><div id="infolist">
+      {% if infolist is not null %}
+        {% for info in infolist %}
+          <li>{{ info.name }}</li>
+        {% endfor %}
+      {% endif %}
+    </div>
+        <h1 class="display-3">Products Registered for sale are</h1>
+    </div>
+    
+</div>
+<div id="items-in-cart"></div>
+<div class="row">
+    {% for product in products %}
+  <div class="col-sm-6">
+    <div class="card">
+    <img class="card-img-top img-fluid" src="{% static 'images/cover1.jpg' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
+        <a href="{% url 'Mona:add_comment' id=product.pk %}" class="btn btn-primary text-right">Take A Look</a>
+        <button class="btn btn-outline-success add-to-cart" id="addButton">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<h1 class="heading">Comments will be appended here</h1>
+<ol id="comment-list">
+</ol>
+<hr>
+
+<script>
+  var commentButton = $('#show-comments')
+  console.log(commentButton)
+  function checkText(){
+      const textchanged = document.querySelector('#change-text').text
+      if(textchanged !== null){
+          console.log("The text is already changed")
+      }else{
+        textchanged.text = "The text is unset till now"
+      }
+    }
+  commentButton.click((e)=>{
+    e.preventDefault()
+    const changedText = document.querySelector('#change-text')
+    changedText.text = "The new Changed Text after the Button is Clicked";
+    checkText()
+ 
+    $.ajax({
+        type: 'GET',
+        url: "/get_comments",
+        enctype: 'Json',
+        data: "",
+        success: function(response){
+            console.log(response)
+        },
+        error: function(error){
+            console.log(error)
+        },
+    })
+  })
+  $('#get_author').click((e)=>{
+    e.preventDefault
+    {% for product in products %}
+      console.log("{{product.name}}" + " with Primary key " + "{{product.pk}}")
+    {% endfor %}
+    const authorName = '{{author}}'
+    $('#author').html(`<u>${authorName}</u>`)
+  })
+  const infoButton = $('#infobutton')
+  infoButton.click('click', (e)=>{
+    e.preventDefault
+    console.log("The button has been clicked")
+    $('#infolist').html("<h1>The Button to get information has been clicked and the new dom has been embeded</h1>")
+
+  })
+  var cartTotal = $('#infobutton')
+  console.log(cartTotal)
+  var i = 0;
+  $("#items-in-cart").html(`<h1>${i}</h1>`)
+  $("#addButton").click("click",(e)=>{
+    e.preventDefault
+    i = i+1
+    $("#items-in-cart").html(`<h1>${i}</h1>`)
+    console.log("Item added to cart")
+  })
+  cartTotal.change((e)=>{
+    console.log("Changed")
+  })
+
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'Overview/base.html' %}{% load static %}{% block main %}
+<h1>{{product.name}}</h1>
+<div class="container">
+    {% for comment in comments %}
+        <div class="card">
+             <h5 class="card-header">{{comment.user}}</h5>
+            <div class="card-body">
+               <p class="card-text">{{comment.content}}</p>
+            </div>
+            <p class="card-footer text-muted text-center">{{comment.time_added|timesince}} ago</p>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+
+<h2>Comments from customers</h2>
+<form method="POST" action="" class="container">
+    {% csrf_token %}
+    <input type="hidden" value="{{product.pk}}" name="product_id" />
+    {{comment_form.as_p}}
+    <input type="submit" value="Submit" class="btn btn-primary" name="submit" >
+    
+</form>
+
+{% endblock main %}
